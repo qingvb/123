@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
+		<title></title>
+		<style>
+			*{
+				margin: 0;
+				padding: 0;
+			}
+			body{
+				overflow: hidden;
+			}
+			section{
+				position: relative;
+				height: 5rem;
+			}
+			ul{
+				position: relative;
+				width: 60rem;
+				height: 5rem;
+			}
+			li{
+				list-style: none;
+				float: left;
+				width: 15rem;
+			}
+			li img{
+				display: block;
+				width: 15rem;
+			}
+			div{
+				width: 8rem;
+				height: 0.8rem;
+				position: absolute;
+				top: 6.2rem;
+				left: 6rem;
+			}
+			button{
+				width: 0.5rem;
+				height: 0.5rem;
+				border-radius: 50%;
+				border: none;
+				opacity: .6;
+			}
+			.color{
+				background: palegoldenrod;
+			}
+		</style>
+	</head>
+	<body>
+		<section>
+			<ul>
+				<li><img src="images/1.jpg"/></li>
+				<li><img src="images/2.jpg"/></li>
+				<li><img src="images/3.jpg"/></li>
+				<li><img src="images/4.jpg"/></li>
+			</ul>
+		</section>
+		<div>
+			<button class="color"></button>
+			<button></button>
+			<button></button>
+			<button></button>
+		</div>
+	</body>
+	<script type="text/javascript">
+		(function(){
+			var html = document.documentElement;
+			html.style.fontSize = html.getBoundingClientRect().width/15+'px'
+		})()
+		document.addEventListener('touchstart',function(e){
+			e.preventDefault()
+		})
+		
+		var box = document.querySelector('section')
+		var ul = document.querySelector('ul');
+		var btn = document.querySelectorAll('button');
+		var disX = 0;
+		var listL = 0;
+		var x = 0;
+		Wth = box.clientWidth;
+		
+		ul.innerHTML += ul.innerHTML;
+		len = ul.children;
+		ul.style.width = len.length*Wth+'px';
+		
+		ul.addEventListener('touchstart',function(e){
+			disX = e.changedTouches[0].pageX;
+			var divL = this.offsetLeft;
+			var num = Math.round(divL/Wth);
+			ul.style.transition = 'none';
+			
+			if(num ==0){
+				ul.style.left = -4*Wth+'px'
+			}
+			if(-num == len.length-1){
+				ul.style.left = -3*Wth+'px'
+			}
+			listL = this.offsetLeft;
+		})
+		
+		ul.addEventListener('touchmove',function(e){
+			var divX = e.changedTouches[0].pageX;
+			ul.style.left = (divX - disX)+listL+'px'
+		})
+		
+		ul.addEventListener('touchend',function(e){
+			var divL = this.offsetLeft;
+			var num = Math.round(divL/Wth)
+			ul.style.left = num*Wth + 'px';
+			ul.style.transition = '2s';
+			
+			btn[x].className = '';
+			btn[-num%btn.length].className = 'color';
+			x = -num%btn.length;
+		})
+	</script>
+</html>
